@@ -55,11 +55,7 @@ exports.loginEmailValidator = [
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters'),
     
-    check('role')
-        .notEmpty()
-        .withMessage('Role required')
-        .isIn(['Admin', 'Receptionist', 'LabTechnician'])
-        .withMessage('Role must be one of the following: Admin, Receptionist, LabTechnician'),
+
 
     validatorMiddleware,
 ];
@@ -77,11 +73,6 @@ exports.loginPhoneValidator = [
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters'),
     
-    check('role')
-        .notEmpty()
-        .withMessage('Role required')
-        .isIn(['Admin', 'Receptionist', 'LabTechnician'])
-        .withMessage('Role must be one of the following: Admin, Receptionist, LabTechnician'),
 
     validatorMiddleware,
 ];

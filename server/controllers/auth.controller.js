@@ -21,17 +21,15 @@ exports.register =asyncHandler(async (req, res, next) => {
 
 
 exports.loginEmail = asyncHandler(async (req, res, next) => {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
     
     const user = await Staff.findOne({ email });
 
     if (!user | !(await bcrypt.compare(password, user.password))) {
-        return next(new ApiError("Invalid email, password, or role", 401));
+        return next(new ApiError("Invalid email or password", 401));
     }
         
-    if (user.role !== role) {
-        return next(new ApiError('Invalid email, password, or role', 401));
-    }
+
     delete user._doc.password; // Remove password from response
 
     // Generate token
@@ -53,18 +51,15 @@ exports.loginEmail = asyncHandler(async (req, res, next) => {
 })
 
 exports.loginPhone = asyncHandler(async (req, res, next) => {
-    const { phone, password, role } = req.body;
+    const { phone, password } = req.body;
     
     const user = await Staff.findOne({ phone });
 
     if (!user | !(await bcrypt.compare(password, user.password))) {
-        return next(new ApiError("Invalid email, password, or role", 401));
+        return next(new ApiError("Invalid email or password", 401));
     }
 
-        
-    if (user.role !== role) {
-        return next(new ApiError('Invalid email, password, or role', 401));
-    }
+
 
     delete user._doc.password; // Remove password from response
 
