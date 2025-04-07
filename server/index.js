@@ -14,12 +14,19 @@ const globalError = require('./middlewares/globalError');
 // Connect to MongoDB
 connectDB();
 
+const corsOptions = {
+    origin: function (origin, callback) {
+        callback(null, true); // Accept all origins
+    },
+    credentials: true, // Allow credentials (cookies)
+};
+
 
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Apis
 app.use('/api/v1/auth', authRoute);
