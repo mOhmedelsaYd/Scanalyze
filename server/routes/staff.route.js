@@ -9,18 +9,19 @@ const { getStaff,
         resizeImage
 } = require('../controllers/staff.controller');
 const { protect, allowedTo } = require('../controllers/auth.controller');
+const { createUserValidator, getUserValidator, deleteUserValidator, updateUserValidator } = require('../utils/validator/userValidator');
 
 router.use(protect, allowedTo('Admin'));
 
 router
     .route('/')
-    .get(getAllStaff)
-    .post(uploadUserImage, resizeImage, createStaff);
+    .get(getUserValidator, getAllStaff)
+    .post(uploadUserImage, resizeImage, createUserValidator, createStaff);
 router
     .route('/:id')
     .get(getStaff)
-    .put(uploadUserImage, resizeImage, updateStaff)
-    .delete(deleteStaff);
+    .put(uploadUserImage, resizeImage, updateUserValidator, updateStaff)
+    .delete(deleteUserValidator, deleteStaff);
 
 
 module.exports = router;
