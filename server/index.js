@@ -28,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
+
+
 // Apis
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/staff', staffRoute);
