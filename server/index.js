@@ -25,12 +25,11 @@ app.use(cors());
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/staff', staffRoute);
 
-app.use('*', (req, res, next) => {
-    next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
-});
 
 
 app.use(globalError);
+
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
