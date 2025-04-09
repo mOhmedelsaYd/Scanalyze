@@ -15,11 +15,11 @@ router.use(protect, allowedTo('Admin'));
 
 router
     .route('/')
-    .get(getUserValidator, getAllStaff)
+    .get(getAllStaff)
     .post(uploadUserImage, resizeImage, createUserValidator, createStaff);
 router
     .route('/:id')
-    .get(getStaff)
+    .get(getUserValidator, getStaff)
     .put(uploadUserImage, resizeImage, updateUserValidator, updateStaff)
     .delete(deleteUserValidator, deleteStaff);
 

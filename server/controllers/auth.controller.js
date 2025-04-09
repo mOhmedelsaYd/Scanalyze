@@ -5,7 +5,6 @@ const ApiError = require("../utils/apiError");
 const Staff = require("../models/staff.model");
 const generateToken = require("../utils/generateToken");
 
-
 exports.register =asyncHandler(async (req, res, next) => {
     const { name, email, password } = req.body;
 
@@ -124,3 +123,5 @@ exports.allowedTo = (...roles) =>
         }
         next();
     });
+
+
