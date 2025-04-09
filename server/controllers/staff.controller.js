@@ -2,7 +2,6 @@ const asyncHandler = require('express-async-handler');
 const { v4: uuidv4 } = require('uuid');
 const sharp = require('sharp');
 const factory = require('./factoryHandler');
-const ApiError = require('../utils/apiError');
 const { uploadSingleImage } = require('../middlewares/uploadImageMiddleware');
 const Staff = require('../models/staff.model');
 
@@ -30,12 +29,12 @@ exports.resizeImage = asyncHandler(async (req, res, next) => {
 // @desc    Get list of staff
 // @route   GET /api/v1/staff
 // @access  Private/Admin
-exports.getAllStaff = factory.getAll(Staff);
+exports.getAllStaff = factory.getAll(Staff, '', { path: 'branch', select: 'name -_id' })
 
 // @desc    Get specific staff by id
 // @route   GET /api/v1/staff/:id
 // @access  Private/Admin
-exports.getStaff = factory.getOne(Staff);
+exports.getStaff = factory.getOne(Staff,  { path: 'branch', select: 'name -_id' });
 
 // @desc    Create Staff
 // @route   POST  /api/v1/staffs

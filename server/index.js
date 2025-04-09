@@ -9,6 +9,7 @@ const connectDB = require('./config/db');
 dotenv.config({});
 const authRoute = require('./routes/auth.route');
 const staffRoute = require('./routes/staff.route');
+const branchRoute = require('./routes/branch.route');
 const globalError = require('./middlewares/globalError');
 
 // Connect to MongoDB
@@ -33,6 +34,7 @@ app.use(cors(corsOptions));
 // Apis
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/staff', staffRoute);
+app.use('/api/v1/branches', branchRoute);
 
 
 

@@ -56,7 +56,7 @@ exports.createOne = (Model) =>
         res.status(200).json({ data: document });
     });
 
-exports.getAll = (Model, modelName = '') =>
+exports.getAll = (Model, modelName = '', populateOptions) =>
     asyncHandler(async (req, res) => {
         let filter = {};
         if (req.filterObj) {
@@ -73,6 +73,11 @@ exports.getAll = (Model, modelName = '') =>
 
         // Execute query
         const { mongooseQuery, paginationResult } = apiFeatures;
+        
+        if (populateOptions) {
+            mongooseQuery.populate(populateOptions);
+        }
+
         const documents = await mongooseQuery;
 
         res

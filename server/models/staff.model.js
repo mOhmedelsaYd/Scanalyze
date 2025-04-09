@@ -16,6 +16,11 @@ const staffSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    nationalId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     phone: {
         type: String,
         required: true,
@@ -25,8 +30,9 @@ const staffSchema = new mongoose.Schema({
         required: true,
         enum: ['Admin', 'Receptionist', 'LabTechnician'], 
     },
-    laboratory: {
-        type: String,
+    branch: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Branch',
         required: true,
     },
     experience: {
@@ -34,6 +40,8 @@ const staffSchema = new mongoose.Schema({
             required: true,
     },
     imageProfile: String,
+    birthDate: { type: String }, 
+    age: { type: Number },   
     addresses: 
     {
         type: String,
@@ -56,14 +64,43 @@ const setImageURL = (doc) => {
         doc.imageProfile = imageUrl;
     }
 };
+
+function processNationalId(doc) {
+    if (!doc.nationalId || doc.nationalId.length !== 14) {
+        return new Error('Invalid national ID format. It should be 14 digits long.', 400);
+    };
+
+    const century = doc.nationalId.charAt(0) === '2' ? '19' : '20';
+    const year = century + doc.nationalId.substring(1, 3);
+    const month = doc.nationalId.substring(3, 5);
+    const day = doc.nationalId.substring(5, 7);
+    const birthDate = new Date(`${year}-${month}-${day}`);
+    
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    if (today.getMonth() < birthDate.getMonth() || 
+        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+        age--;
+        }
+
+    doc.birthDate = birthDate.toISOString().split('T')[0];
+    doc.age = age;
+}
+
+
 // findOne, findAll and update
 staffSchema.post('init', (doc) => {
     setImageURL(doc);
+    processNationalId(doc)
+
 });
 
 // create
 staffSchema.post('save', (doc) => {
     setImageURL(doc);
 });
+
+
+
 
 module.exports = mongoose.model('Staff', staffSchema);
