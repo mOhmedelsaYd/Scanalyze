@@ -16,7 +16,7 @@ router.use(protect, allowedTo('Admin'));
 router
     .route('/')
     .get(getAllStaff)
-    .post(uploadUserImage, resizeImage, createStaff);
+    .post(uploadUserImage, resizeImage, createUserValidator, createStaff);
 router
     .route('/:id')
     .get(getUserValidator, getStaff)
