@@ -34,9 +34,7 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
     asyncHandler(async (req, res) => {
-        const { addresses } = req.body;
-        const parsedAddresses = JSON.parse(addresses)
-        const newDoc = await Model.create({ ...req.body, addresses: parsedAddresses })
+        const newDoc = await Model.create(req.body)
         res.status(201).json({ data: newDoc });
     });
 

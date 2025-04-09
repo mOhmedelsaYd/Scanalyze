@@ -45,23 +45,7 @@ exports.createStaff = factory.createOne(Staff);
 // @desc    Update specific Staff
 // @route   PUT /api/v1/staffs/:id
 // @access  Private/Admin
-exports.updateStaff = asyncHandler(async (req, res, next) => {
-    const { addresses } = req.body;
-    const parsedAddresses = JSON.parse(addresses)
-
-    const document = await Staff.findByIdAndUpdate(req.params.id, {
-        ...req.body,
-        addresses: parsedAddresses,
-        },
-        {
-        new: true,
-        } );
-
-    if (!document) {
-        return next(new ApiError(`No document for this id ${req.params.id}`, 404));
-    }
-    res.status(200).json({ data: document });
-});
+exports.updateStaff = factory.updateOne(Staff);
 
 // @desc    Delete specific Staff
 // @route   DELETE /api/v1/Staffs/:id
